@@ -39,14 +39,6 @@ class UserRepository implements IUserRepository {
     }
   }
 
-  public async update(user: User) {
-    try {
-      return await UserRepository.repo.save(user);
-    } catch (e) {
-      throw createHttpError(500, "Error updating user");
-    }
-  }
-
   public async delete(email: string) {
     try {
       await UserRepository.repo.delete({ email });
