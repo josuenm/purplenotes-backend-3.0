@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import createHttpError from "http-errors";
-import { User } from "../../models/User";
+import { User } from "../../entities/User";
 import { IUserRepository } from "../../repositories/implementations/IUserRepository";
 
 class DeleteUseCase {

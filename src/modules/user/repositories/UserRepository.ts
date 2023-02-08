@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import createHttpError from "http-errors";
 import { FindOneOptions, Repository } from "typeorm";
 import { AppDataSource } from "../../../config/mongodb/data-source";
-import { User } from "../models/User";
+import { User } from "../entities/User";
 import { SignUpDTO } from "../types/UserProps";
 import { IUserRepository } from "./implementations/IUserRepository";
 

@@ -1,5 +1,5 @@
 import { FindOneOptions } from "typeorm";
-import { User } from "../../models/User";
+import { User } from "../../entities/User";
 import { SignUpDTO } from "../../types/UserProps";
 
 interface IUserRepository {

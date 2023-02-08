@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { DataSource } from "typeorm";
-import { User } from "../../modules/user/models/User";
+import { User } from "../../modules/user/entities/User";
 
 export const AppDataSource = new DataSource({
   type: "mongodb",

@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import createHttpError from "http-errors";
 import { validateUserUpdate } from "../../../../services/joi";
-import { User } from "../../models/User";
+import { User } from "../../entities/User";
 import { IUserRepository } from "../../repositories/implementations/IUserRepository";
 import { UserUpdateDTO } from "../../types/UserProps";
 
