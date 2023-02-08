@@ -12,6 +12,10 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
 
   token = token.slice(7, token.length) as string;
 
+  if (!token) {
+    return res.status(401).send("Token is required");
+  }
+
   try {
     const decoded = jwt.verify(
       token,

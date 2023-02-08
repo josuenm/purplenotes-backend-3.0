@@ -1,4 +1,5 @@
 import Joi, { Schema } from "joi";
+import { NewNoteDTO, UpdateNoteDTO } from "../modules/note/types/NoteProps";
 import {
   SignInDTO,
   SignUpDTO,
@@ -9,6 +10,12 @@ const userSchema = {
   name: Joi.string().min(1).max(80).required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).max(20).required(),
+};
+
+const noteSchema = {
+  title: Joi.string().required(),
+  body: Joi.string().allow(null, ""),
+  privacy: Joi.boolean().required(),
 };
 
 function validate(schema: Schema, data: any) {
@@ -45,4 +52,18 @@ function validateUserUpdate(data: UserUpdateDTO) {
   return validate(Joi.object(userSchema), data);
 }
 
-export { validateSignUp, validateUserUpdate, validateSignIn };
+function validateNewNote(data: NewNoteDTO) {
+  return validate(Joi.object(noteSchema), data);
+}
+
+function validateNoteUpdate(data: UpdateNoteDTO) {
+  return validate(Joi.object(noteSchema), data);
+}
+
+export {
+  validateSignUp,
+  validateUserUpdate,
+  validateSignIn,
+  validateNewNote,
+  validateNoteUpdate,
+};
