@@ -4,7 +4,6 @@ services:
   mongodb:
     container_name: purplenotes_db
     image: "mongo"
-    restart: always
     env_file:
       - .env
     ports:
