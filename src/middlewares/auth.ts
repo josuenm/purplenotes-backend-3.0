@@ -25,7 +25,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (!user) {
-      return res.status(401).send("Invalid token");
+      return res.status(404).send("User not found");
     }
 
     req.user = user;
