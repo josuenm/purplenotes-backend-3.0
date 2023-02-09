@@ -4,14 +4,14 @@ import { INoteRepository } from "../../repositories/implementations/INoteReposit
 class GetMyNoteUseCase {
   constructor(private noteRepository: INoteRepository) {}
 
-  public async execute(token: string) {
-    if (!token) {
+  public async execute(id: string) {
+    if (!id) {
       throw createHttpError(401, "Field are required");
     }
 
     const note = await this.noteRepository.findOne({
       where: {
-        token,
+        id,
       },
     });
 

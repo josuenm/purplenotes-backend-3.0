@@ -33,15 +33,19 @@ class UserRepository implements IUserRepository {
       return UserRepository.repo.create({
         ...data,
         password: hashedPassword,
+        accountConfirmation: {
+          email: data.email,
+          isUsed: false,
+        },
       });
     } catch (e) {
       throw createHttpError(500, "Error finding user");
     }
   }
 
-  public async delete(email: string) {
+  public async delete(id: string) {
     try {
-      await UserRepository.repo.delete({ email });
+      await UserRepository.repo.delete({ id });
     } catch (e) {
       throw createHttpError(500, "Error deleting user");
     }

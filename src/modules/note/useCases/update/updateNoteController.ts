@@ -7,7 +7,7 @@ class UpdateNoteController {
   public async handle(req: Request, res: Response, next: NextFunction) {
     try {
       const noteUpdated = await this.updateNoteUseCase.execute(
-        req.params.token,
+        req.params.id,
         req.body
       );
       res.json(noteUpdated);

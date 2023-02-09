@@ -6,7 +6,7 @@ interface IUserRepository {
   findOne: (where: FindOneOptions<User>) => Promise<User | null>;
   save: (user: User) => Promise<User>;
   create: (data: SignUpDTO) => Promise<User>;
-  delete: (email: string) => Promise<void>;
+  delete: (id: string) => Promise<void>;
 }
 
 export { IUserRepository };

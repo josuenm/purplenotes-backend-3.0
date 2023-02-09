@@ -33,7 +33,7 @@ class SignInUseCase {
     }
 
     const token = jwt.sign(
-      { email: user.email },
+      { id: user.id },
       JSON.stringify(process.env.JWT_SECRET),
       {
         expiresIn: "30d",

@@ -7,7 +7,7 @@ class GetAllMyNotesUseCase {
   public async execute(user: User) {
     return await this.noteRepository.findAll({
       where: {
-        author: user.token,
+        author: user.id,
       },
     });
   }

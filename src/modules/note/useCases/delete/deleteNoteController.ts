@@ -6,7 +6,7 @@ class DeleteNoteController {
 
   public async handle(req: Request, res: Response, next: NextFunction) {
     try {
-      await this.deleteNoteUseCase.execute(req.params.token);
+      await this.deleteNoteUseCase.execute(req.params.id);
       res.status(201).send();
     } catch (e) {
       next(e);

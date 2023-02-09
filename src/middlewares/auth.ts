@@ -21,11 +21,11 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
       token,
       JSON.stringify(process.env.JWT_SECRET)
     ) as {
-      email: string;
+      id: string;
     };
     const userRepository = new UserRepository();
     const user = await userRepository.findOne({
-      where: { email: decoded.email },
+      where: { id: decoded.id },
     });
 
     if (!user) {

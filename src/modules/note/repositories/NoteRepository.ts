@@ -29,8 +29,8 @@ class NoteRepository implements INoteRepository {
     return await NoteRepository.repo.save(note);
   }
 
-  public async delete(token: string) {
-    await NoteRepository.repo.delete({ token });
+  public async delete(id: string) {
+    await NoteRepository.repo.delete({ id });
   }
 }
 

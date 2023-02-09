@@ -6,14 +6,14 @@ import { UpdateNoteDTO } from "../../types/NoteProps";
 class UpdateNoteUseCase {
   constructor(private noteRepository: INoteRepository) {}
 
-  public async execute(token: string, updates: UpdateNoteDTO) {
+  public async execute(id: string, updates: UpdateNoteDTO) {
     const { error, value } = validateNoteUpdate(updates);
 
     if (error) {
       throw createHttpError(401, "Fields are invalid");
     }
 
-    const note = await this.noteRepository.findOne({ where: { token } });
+    const note = await this.noteRepository.findOne({ where: { id } });
 
     if (!note) {
       throw createHttpError(404, "Note not found");

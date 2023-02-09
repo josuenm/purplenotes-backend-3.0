@@ -29,7 +29,7 @@ class SignUpUseCase {
     const user = await this.userRepository.save(userCreated);
 
     const token = jwt.sign(
-      { email: user.email },
+      { ud: user.id },
       JSON.stringify(process.env.JWT_SECRET),
       {
         expiresIn: "30d",

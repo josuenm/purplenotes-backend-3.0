@@ -17,7 +17,7 @@ class CreateNoteUseCase {
     const noteCreated = this.noteRepository.create({
       ...value,
       title: value.title || "New note",
-      author: user.token,
+      author: user.id,
     });
     return await this.noteRepository.save(noteCreated);
   }

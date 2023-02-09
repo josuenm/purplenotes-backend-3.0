@@ -1,28 +1,25 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
 
-@Entity("notes")
-class Note {
+@Entity("password_recoveries")
+class PasswordRecovery {
   @PrimaryColumn()
   id: string;
 
-  @Column({ type: "boolean", nullable: false })
-  privacy: boolean;
+  @Column({ nullable: false })
+  user: string;
 
   @Column({ nullable: false })
-  title: string;
+  email: string;
 
   @Column({ nullable: false })
-  body: string;
+  isUsed: boolean;
+
+  @Column({ nullable: false })
+  expiryDate: Date;
 
   @Column({ nullable: false })
   createdAt: Date;
-
-  @Column({ nullable: false })
-  updatedAt: Date;
-
-  @Column({ nullable: false })
-  author: string;
 
   constructor() {
     if (!this.id) {
@@ -33,10 +30,14 @@ class Note {
       this.createdAt = new Date();
     }
 
-    if (!this.updatedAt) {
-      this.updatedAt = new Date();
+    if (!this.expiryDate) {
+      const currentDate = new Date();
+      const expirationDate = new Date(currentDate);
+      expirationDate.setDate(expirationDate.getDate() + 1);
+
+      this.expiryDate = expirationDate;
     }
   }
 }
 
-export { Note };
+export { PasswordRecovery };

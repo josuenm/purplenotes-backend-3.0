@@ -13,7 +13,7 @@ class DeleteUseCase {
       throw createHttpError(401, "Incorrect password");
     }
 
-    await this.userRepository.delete(user.email);
+    await this.userRepository.delete(user.id);
   }
 }
 

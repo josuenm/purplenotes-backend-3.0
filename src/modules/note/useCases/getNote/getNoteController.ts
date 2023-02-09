@@ -6,7 +6,7 @@ class GetNoteController {
 
   public async handle(req: Request, res: Response, next: NextFunction) {
     try {
-      const note = await this.getNoteUseCase.execute(req.params.token);
+      const note = await this.getNoteUseCase.execute(req.params.id);
       res.json(note);
     } catch (e) {
       next(e);
