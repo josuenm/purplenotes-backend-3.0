@@ -12,3 +12,20 @@ services:
       MONGO_INITDB_ROOT_DATABASE: "${MONGO_DB}"
       MONGO_INITDB_ROOT_USERNAME: "${MONGO_USER}"
       MONGO_INITDB_ROOT_PASSWORD: "${MONGO_PASS}"
+
+  app:
+    container_name: app
+    env_file:
+      - .env
+    build:
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mongodb
+    ports:
+      - ${PORT}:${PORT}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
