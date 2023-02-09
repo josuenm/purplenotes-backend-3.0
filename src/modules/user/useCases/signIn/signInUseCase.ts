@@ -40,7 +40,14 @@ class SignInUseCase {
       }
     );
 
-    return { user, token };
+    return {
+      user: {
+        email: user.email,
+        name: user.name,
+        accountConfirmation: user.accountConfirmation,
+      },
+      token,
+    };
   }
 }
 
