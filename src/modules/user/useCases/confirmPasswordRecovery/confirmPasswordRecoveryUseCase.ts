@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import createHttpError from "http-errors";
+import { validateConfirmPasswordRecovery } from "../../../../services/joi";
 import { IPasswordRecoveryRepository } from "../../repositories/implementations/IPasswordRecoveryRepository";
 import { IUserRepository } from "../../repositories/implementations/IUserRepository";
 
@@ -10,6 +11,12 @@ class ConfirmPasswordRecoveryUseCase {
   ) {}
 
   public async execute(id: string, newPassword: string) {
+    const { error, value } = validateConfirmPasswordRecovery(newPassword);
+
+    if (error) {
+      throw createHttpError(401, "Field are invalid");
+    }
+
     const passwordRecovery = await this.passwordRecoveryRepository.findOne({
       where: { id },
     });
@@ -30,7 +37,7 @@ class ConfirmPasswordRecoveryUseCase {
       throw createHttpError(401, "User not found");
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 8);
+    const hashedPassword = await bcrypt.hash(value, 8);
 
     await this.userRepository.save({ ...user, password: hashedPassword });
     await this.passwordRecoveryRepository.confirm(passwordRecovery);
@@ -38,4 +45,3 @@ class ConfirmPasswordRecoveryUseCase {
 }
 
 export { ConfirmPasswordRecoveryUseCase };
-

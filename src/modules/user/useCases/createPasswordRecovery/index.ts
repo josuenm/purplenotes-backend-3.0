@@ -14,4 +14,4 @@ const useCase = new CreatePasswordRecoveryUseCase(
 
 const controller = new CreatePasswordRecoveryController(useCase);
 
-export { controller as passwordRecoveryController };
+export { controller as createPasswordRecoveryController };

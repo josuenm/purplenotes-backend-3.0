@@ -18,6 +18,14 @@ const noteSchema = {
   privacy: Joi.boolean().required(),
 };
 
+const createPasswordRecoverySchema = {
+  email: Joi.string().email().required(),
+};
+
+const confirmPasswordRecoverySchema = {
+  email: Joi.string().min(6).max(20).required(),
+};
+
 function validate(schema: Schema, data: any) {
   return schema.validate(data, {
     abortEarly: false,
@@ -60,10 +68,22 @@ function validateNoteUpdate(data: UpdateNoteDTO) {
   return validate(Joi.object(noteSchema), data);
 }
 
+function validateCreatePasswordRecovery(data: string) {
+  return validate(Joi.object(createPasswordRecoverySchema), { email: data });
+}
+
+function validateConfirmPasswordRecovery(data: string) {
+  return validate(Joi.object(confirmPasswordRecoverySchema), {
+    password: data,
+  });
+}
+
 export {
   validateSignUp,
   validateUserUpdate,
   validateSignIn,
   validateNewNote,
   validateNoteUpdate,
+  validateCreatePasswordRecovery,
+  validateConfirmPasswordRecovery,
 };
