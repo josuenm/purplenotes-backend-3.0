@@ -19,7 +19,6 @@ services:
       - .env
     build:
       dockerfile: Dockerfile
-    restart: always
     depends_on:
       - mongodb
     ports:

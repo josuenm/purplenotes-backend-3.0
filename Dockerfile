@@ -9,4 +9,4 @@ RUN yarn
 # bundle app source
 COPY . .
 
-CMD ["yarn", "dev"]
+CMD ["yarn", "build"]["yarn", "start"]
