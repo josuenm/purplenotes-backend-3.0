@@ -1,5 +1,8 @@
 FROM node:16.15
 
+RUN ["apt-get", "update"]
+RUN ["apt-get", "-y", "install", "vim"]
+
 WORKDIR /usr/src/app
 
 # install app dependencies
@@ -9,4 +12,4 @@ RUN yarn
 # bundle app source
 COPY . .
 
-CMD ["yarn", "build"]["yarn", "start"]
+CMD ["yarn", "dev"]
