@@ -7,7 +7,7 @@ class CreateNoteController {
   public async handle(req: Request, res: Response, next: NextFunction) {
     try {
       const note = await this.createNoteUseCase.execute(req.user, req.body);
-      res.json(note);
+      res.status(201).json(note);
     } catch (e) {
       next(e);
     }

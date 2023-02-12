@@ -13,11 +13,11 @@ route.get("/my/all", auth, (req, res, next) => {
   getAllMyNotesController.handle(req, res, next);
 });
 
-route.get("/:token", (req, res, next) => {
+route.get("/:id", (req, res, next) => {
   getNoteController.handle(req, res, next);
 });
 
-route.get("/my/:token", auth, (req, res, next) => {
+route.get("/my/:id", auth, (req, res, next) => {
   getMyNoteController.handle(req, res, next);
 });
 
@@ -25,11 +25,11 @@ route.post("/", auth, (req, res, next) => {
   createNoteController.handle(req, res, next);
 });
 
-route.put("/:token", auth, (req, res, next) => {
+route.put("/:id", auth, (req, res, next) => {
   updateNoteController.handle(req, res, next);
 });
 
-route.delete("/:token", auth, (req, res, next) => {
+route.delete("/:id", auth, (req, res, next) => {
   deleteNoteController.handle(req, res, next);
 });
 

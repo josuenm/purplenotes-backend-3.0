@@ -14,7 +14,7 @@ const userSchema = {
 
 const noteSchema = {
   title: Joi.string().required(),
-  body: Joi.string().allow(null, ""),
+  body: Joi.string().allow(null, "").required(),
   privacy: Joi.boolean().required(),
 };
 
