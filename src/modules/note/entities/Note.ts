@@ -14,8 +14,8 @@ export interface NoteDocument extends NoteInput, mongoose.Document {}
 const NoteSchema = new mongoose.Schema({
   title: { type: String, required: true },
   body: { type: String, required: true },
-  createdAt: { type: Date, required: true, defualt: Date.now },
-  updatedAt: { type: Date, required: true, defualt: Date.now },
+  createdAt: { type: Date, required: true, default: Date.now },
+  updatedAt: { type: Date, required: true, default: Date.now },
   privacy: { type: Boolean, required: true },
   author: { type: String, required: true },
 });
