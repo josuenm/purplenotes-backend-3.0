@@ -15,13 +15,11 @@ class SignUpUseCase {
       throw createHttpError(401, "Fields are invalid");
     }
 
-    const userAlreadyExist = this.userRepository.findOne({
-      where: {
-        email: value.email,
-      },
+    const userAlreadyExist = await this.userRepository.findOne({
+      email: value.email,
     });
 
-    if (!userAlreadyExist) {
+    if (userAlreadyExist) {
       throw createHttpError(409, "User already exist");
     }
 
@@ -29,7 +27,7 @@ class SignUpUseCase {
     const user = await this.userRepository.save(userCreated);
 
     const token = jwt.sign(
-      { ud: user.id },
+      { id: user._id },
       JSON.stringify(process.env.JWT_SECRET),
       {
         expiresIn: "30d",

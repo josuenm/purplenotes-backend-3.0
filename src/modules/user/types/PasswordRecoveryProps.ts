@@ -1,6 +1,6 @@
 interface CreatePasswordRecoveryDTO {
   email: string;
-  user: string;
+  author: string;
 }
 
 export { CreatePasswordRecoveryDTO };

@@ -1,7 +1,6 @@
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
-import "reflect-metadata";
 import "./config/mongodb";
 import { errorHandler } from "./middlewares/error-handler";
 import { routes } from "./routes/index.routes";

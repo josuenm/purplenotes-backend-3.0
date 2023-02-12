@@ -19,7 +19,7 @@ class UpdateNoteUseCase {
       throw createHttpError(404, "Note not found");
     }
 
-    const noteUpdated = await this.noteRepository.save({
+    const noteUpdated = await this.noteRepository.update({
       ...note,
       ...value,
       updated_at: new Date(),

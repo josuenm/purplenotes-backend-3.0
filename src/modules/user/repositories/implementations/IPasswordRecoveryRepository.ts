@@ -1,15 +1,16 @@
-import { FindOneOptions } from "typeorm";
-import { PasswordRecovery } from "../../entities/PasswordRecovery";
+import { FilterQuery, QueryOptions } from "mongoose";
+import { PasswordRecoveryDocument } from "../../entities/PasswordRecovery";
 import { CreatePasswordRecoveryDTO } from "../../types/PasswordRecoveryProps";
 
 interface IPasswordRecoveryRepository {
-  create: (data: CreatePasswordRecoveryDTO) => PasswordRecovery;
-  save: (data: PasswordRecovery) => Promise<PasswordRecovery>;
-  send: (data: PasswordRecovery) => Promise<void>;
-  confirm: (data: PasswordRecovery) => Promise<void>;
+  create: (data: CreatePasswordRecoveryDTO) => PasswordRecoveryDocument;
+  save: (data: PasswordRecoveryDocument) => Promise<PasswordRecoveryDocument>;
+  send: (data: PasswordRecoveryDocument) => Promise<void>;
+  confirm: (data: PasswordRecoveryDocument) => Promise<void>;
   findOne: (
-    where: FindOneOptions<PasswordRecovery>
-  ) => Promise<PasswordRecovery | null>;
+    query: FilterQuery<PasswordRecoveryDocument>,
+    options?: QueryOptions
+  ) => Promise<PasswordRecoveryDocument | null>;
 }
 
 export { IPasswordRecoveryRepository };

@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import "dotenv/config";
 import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
@@ -17,23 +16,19 @@ class SignInUseCase {
     }
 
     const user = await this.userRepository.findOne({
-      where: {
-        email: data.email,
-      },
+      email: data.email,
     });
 
     if (!user) {
       throw createHttpError(404, "User not found");
     }
 
-    const passwordIsEqual = await bcrypt.compare(data.password, user.password);
-
-    if (!passwordIsEqual) {
+    if (!user.comparePassword(value.password)) {
       throw createHttpError(401, "Email or password is incorrect");
     }
 
     const token = jwt.sign(
-      { id: user.id },
+      { id: user._id },
       JSON.stringify(process.env.JWT_SECRET),
       {
         expiresIn: "30d",

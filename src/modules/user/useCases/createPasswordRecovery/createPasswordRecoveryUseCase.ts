@@ -26,7 +26,7 @@ class CreatePasswordRecoveryUseCase {
 
     const passwordRecovery = this.passwordRecoveryRepository.create({
       email: value,
-      user: user.id,
+      author: user.id,
     });
 
     return await this.passwordRecoveryRepository.save(passwordRecovery);

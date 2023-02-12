@@ -25,7 +25,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     };
     const userRepository = new UserRepository();
     const user = await userRepository.findOne({
-      where: { id: decoded.id },
+      _id: decoded.id,
     });
 
     if (!user) {
