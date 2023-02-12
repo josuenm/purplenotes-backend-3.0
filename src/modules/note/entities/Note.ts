@@ -1,42 +1,23 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
-import { v4 as uuid } from "uuid";
+import mongoose from "mongoose";
 
-@Entity("notes")
-class Note {
-  @PrimaryColumn()
-  id: string;
-
-  @Column({ type: "boolean", nullable: false })
-  privacy: boolean;
-
-  @Column({ nullable: false })
+export interface NoteInput {
   title: string;
-
-  @Column({ nullable: false })
   body: string;
-
-  @Column({ nullable: false })
   createdAt: Date;
-
-  @Column({ nullable: false })
   updatedAt: Date;
-
-  @Column({ nullable: false })
+  privacy: boolean;
   author: string;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-
-    if (!this.createdAt) {
-      this.createdAt = new Date();
-    }
-
-    if (!this.updatedAt) {
-      this.updatedAt = new Date();
-    }
-  }
 }
 
-export { Note };
+export interface NoteDocument extends NoteInput, mongoose.Document {}
+
+const NoteSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  body: { type: String, required: true },
+  createdAt: { type: Date, required: true, defualt: Date.now },
+  updatedAt: { type: Date, required: true, defualt: Date.now },
+  privacy: { type: Boolean, required: true },
+  author: { type: String, required: true },
+});
+
+export default mongoose.model<NoteDocument>("Note", NoteSchema);

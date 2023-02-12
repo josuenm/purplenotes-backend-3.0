@@ -1,43 +1,33 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
-import { v4 as uuid } from "uuid";
+import mongoose from "mongoose";
 
-@Entity("password_recoveries")
-class PasswordRecovery {
-  @PrimaryColumn()
-  id: string;
-
-  @Column({ nullable: false })
-  user: string;
-
-  @Column({ nullable: false })
+export interface PasswordRecoveryInput {
+  author: string;
   email: string;
-
-  @Column({ nullable: false })
   isUsed: boolean;
-
-  @Column({ nullable: false })
   expiryDate: Date;
-
-  @Column({ nullable: false })
   createdAt: Date;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-
-    if (!this.createdAt) {
-      this.createdAt = new Date();
-    }
-
-    if (!this.expiryDate) {
-      const currentDate = new Date();
-      const expirationDate = new Date(currentDate);
-      expirationDate.setDate(expirationDate.getDate() + 1);
-
-      this.expiryDate = expirationDate;
-    }
-  }
 }
 
-export { PasswordRecovery };
+export interface PasswordRecoveryDocument
+  extends PasswordRecoveryInput,
+    mongoose.Document {}
+
+function generateExpiryDate() {
+  const currentDate = new Date();
+  const expirationDate = new Date(currentDate);
+  expirationDate.setDate(expirationDate.getDate() + 1);
+  return expirationDate;
+}
+
+const PasswordRecoverySchema = new mongoose.Schema({
+  author: { type: String, required: true },
+  email: { type: String, required: true },
+  isUsed: { type: Boolean, required: true },
+  expiryDate: { type: Date, required: true, default: generateExpiryDate() },
+  createdAt: { type: Date, required: true, default: Date.now },
+});
+
+export default mongoose.model<PasswordRecoveryDocument>(
+  "PasswordRecovery",
+  PasswordRecoverySchema
+);

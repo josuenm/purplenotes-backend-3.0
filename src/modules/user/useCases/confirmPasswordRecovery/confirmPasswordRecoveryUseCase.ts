@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import createHttpError from "http-errors";
 import { validateConfirmPasswordRecovery } from "../../../../services/joi";
 import { IPasswordRecoveryRepository } from "../../repositories/implementations/IPasswordRecoveryRepository";
@@ -30,16 +29,14 @@ class ConfirmPasswordRecoveryUseCase {
     }
 
     const user = await this.userRepository.findOne({
-      where: { id: passwordRecovery.user },
+      where: { id: passwordRecovery.author },
     });
 
     if (!user) {
       throw createHttpError(401, "User not found");
     }
 
-    const hashedPassword = await bcrypt.hash(value, 8);
-
-    await this.userRepository.save({ ...user, password: hashedPassword });
+    await this.userRepository.save(user);
     await this.passwordRecoveryRepository.confirm(passwordRecovery);
   }
 }

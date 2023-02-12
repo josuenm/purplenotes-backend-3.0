@@ -1,13 +1,13 @@
 import createHttpError from "http-errors";
 import { validateNewNote } from "../../../../services/joi";
-import { User } from "../../../user/entities/User";
+import { UserDocument } from "../../../user/entities/User";
 import { INoteRepository } from "../../repositories/implementations/INoteRepository";
 import { NewNoteDTO } from "../../types/NoteProps";
 
 class CreateNoteUseCase {
   constructor(private noteRepository: INoteRepository) {}
 
-  public async execute(user: User, note: NewNoteDTO) {
+  public async execute(user: UserDocument, note: NewNoteDTO) {
     const { error, value } = validateNewNote(note);
 
     if (error) {

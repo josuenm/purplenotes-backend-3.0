@@ -1,36 +1,41 @@
-import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
-import { AppDataSource } from "../../../config/mongodb/data-source";
-import { Note } from "../entities/Note";
+import { FilterQuery, QueryOptions } from "mongoose";
+import Note, { NoteDocument } from "../entities/Note";
 import { NewNoteDTO } from "../types/NoteProps";
 import { INoteRepository } from "./implementations/INoteRepository";
 
 class NoteRepository implements INoteRepository {
-  private static repo: Repository<Note>;
-
-  constructor() {
-    if (!NoteRepository.repo) {
-      NoteRepository.repo = AppDataSource.getRepository(Note);
-    }
+  public async findOne(
+    query: FilterQuery<NoteDocument>,
+    options?: QueryOptions
+  ) {
+    return await Note.findOne(query, null, options);
   }
 
-  public async findOne(where: FindOneOptions<Note>) {
-    return await NoteRepository.repo.findOne(where);
-  }
-
-  public async findAll(where: FindManyOptions<Note>) {
-    return await NoteRepository.repo.find(where);
+  public async findAll(
+    query: FilterQuery<NoteDocument>,
+    options?: QueryOptions
+  ) {
+    return await Note.find(query, null, options);
   }
 
   public create(note: NewNoteDTO) {
-    return NoteRepository.repo.create(note);
+    return new Note(note);
   }
 
-  public async save(note: Note) {
-    return await NoteRepository.repo.save(note);
+  public async save(note: NoteDocument) {
+    return await note.save();
   }
 
-  public async delete(id: string) {
-    await NoteRepository.repo.delete({ id });
+  public async delete(note: NoteDocument) {
+    await note.delete();
+  }
+
+  public async update(note: NoteDocument) {
+    return await Note.findOneAndUpdate(
+      { _id: note._id },
+      { $set: { ...note } },
+      { upsert: true, returnOriginal: false }
+    );
   }
 }
 

@@ -1,41 +1,51 @@
-import bcrypt from "bcrypt";
 import createHttpError from "http-errors";
-import { FindOneOptions, Repository } from "typeorm";
-import { AppDataSource } from "../../../config/mongodb/data-source";
-import { User } from "../entities/User";
+import { FilterQuery, QueryOptions } from "mongoose";
+import User, { UserDocument } from "../entities/User";
 import { SignUpDTO } from "../types/UserProps";
 import { IUserRepository } from "./implementations/IUserRepository";
 
 class UserRepository implements IUserRepository {
-  private static repo: Repository<User>;
-
-  constructor() {
-    if (!UserRepository.repo) {
-      UserRepository.repo = AppDataSource.getRepository(User);
-    }
+  public async findOne(
+    query: FilterQuery<UserDocument>,
+    options?: QueryOptions
+  ) {
+    return User.findOne(query, null, options);
   }
 
-  public async findOne(where: FindOneOptions<User>) {
-    return UserRepository.repo.findOne(where);
-  }
-
-  public async save(user: User) {
+  public async save(user: UserDocument) {
     try {
-      return await UserRepository.repo.save(user);
+      return await user.save();
     } catch (e) {
       throw createHttpError(500, "Error saving user");
     }
   }
 
+  public async update(user: UserDocument) {
+    try {
+      return await User.findOneAndUpdate(
+        { _id: user._id },
+        {
+          $set: {
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            accountConfirmation: user.accountConfirmation,
+            updatedAt: Date.now,
+          },
+        },
+        { upsert: true, returnOriginal: false }
+      );
+    } catch (e) {
+      throw createHttpError(500, "Error updating user");
+    }
+  }
+
   public async create(data: SignUpDTO) {
     try {
-      const hashedPassword = await bcrypt.hash(data.password, 8);
-      return UserRepository.repo.create({
+      return new User({
         ...data,
-        password: hashedPassword,
         accountConfirmation: {
           email: data.email,
-          isUsed: false,
         },
       });
     } catch (e) {
@@ -43,9 +53,9 @@ class UserRepository implements IUserRepository {
     }
   }
 
-  public async delete(id: string) {
+  public async delete(user: UserDocument) {
     try {
-      await UserRepository.repo.delete({ id });
+      await user.delete();
     } catch (e) {
       throw createHttpError(500, "Error deleting user");
     }

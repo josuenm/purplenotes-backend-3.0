@@ -1,33 +1,32 @@
-import { FindOneOptions, Repository } from "typeorm";
-import { AppDataSource } from "../../../config/mongodb/data-source";
-import { PasswordRecovery } from "../entities/PasswordRecovery";
+import { FilterQuery, QueryOptions } from "mongoose";
+import PasswordRecovery, {
+  PasswordRecoveryDocument,
+} from "../entities/PasswordRecovery";
 import { CreatePasswordRecoveryDTO } from "../types/PasswordRecoveryProps";
 import { IPasswordRecoveryRepository } from "./implementations/IPasswordRecoveryRepository";
 
 class PasswordRecoveryRepository implements IPasswordRecoveryRepository {
-  private static repo: Repository<PasswordRecovery>;
-
-  constructor() {
-    if (!PasswordRecoveryRepository.repo) {
-      PasswordRecoveryRepository.repo =
-        AppDataSource.getRepository(PasswordRecovery);
-    }
-  }
-
-  public findOne(where: FindOneOptions<PasswordRecovery>) {
-    return PasswordRecoveryRepository.repo.findOne(where);
+  public async findOne(
+    query: FilterQuery<PasswordRecoveryDocument>,
+    options?: QueryOptions
+  ) {
+    return await PasswordRecovery.findOne(query, null, options);
   }
 
   public create(data: CreatePasswordRecoveryDTO) {
-    return PasswordRecoveryRepository.repo.create(data);
+    return new PasswordRecovery(data);
   }
 
-  public async save(passwordRecovery: PasswordRecovery) {
-    return await PasswordRecoveryRepository.repo.save(passwordRecovery);
+  public async save(passwordRecovery: PasswordRecoveryDocument) {
+    return await passwordRecovery.save();
   }
 
-  public async confirm(data: PasswordRecovery) {
-    await this.save({ ...data, isUsed: true });
+  public async confirm(passwordRecovery: PasswordRecoveryDocument) {
+    await PasswordRecovery.findOneAndUpdate(
+      { _id: passwordRecovery._id },
+      { $set: { isUsed: true } },
+      { upsert: true, returnOriginal: false }
+    );
   }
 
   public async send() {}

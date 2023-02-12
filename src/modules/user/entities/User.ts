@@ -1,41 +1,54 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
-import { v4 as uuid } from "uuid";
+import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
-@Entity("users")
-class User {
-  @PrimaryColumn()
-  id: string;
-
-  @Column({ nullable: false })
-  name: string;
-
-  @Column({ nullable: false, unique: true })
+interface AccountConfirmationInput {
   email: string;
-
-  @Column({ nullable: false })
-  password: string;
-
-  @Column({ nullable: false })
-  created_at: Date;
-
-  @Column({ nullable: false })
-  updated_at: Date;
-
-  @Column({ type: "jsonb", nullable: false })
-  accountConfirmation: {
-    email: string;
-    isUsed: boolean;
-  };
-
-  constructor() {
-    if (!this.created_at) {
-      this.created_at = new Date();
-    }
-    if (!this.id) {
-      this.id = uuid();
-    }
-    this.updated_at = new Date();
-  }
+  isUsed: boolean;
 }
 
-export { User };
+export interface UserInput {
+  name: string;
+  email: string;
+  password: string;
+  accountConfirmation: AccountConfirmationInput;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface UserDocument extends UserInput, mongoose.Document {
+  comparePassword: (password: string) => Promise<boolean>;
+}
+
+const UserSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  accountConfirmation: {
+    email: { type: String, required: true },
+    isUsed: { type: Boolean, required: true, default: false },
+  },
+  createdAt: { type: Date, required: true, default: Date.now },
+  updatedAt: { type: Date, required: true, default: Date.now },
+});
+
+UserSchema.pre("save", async function (this: UserDocument, next) {
+  // only hash the password if it has been modified (or is ne)
+  if (!this.isModified("password")) return next();
+
+  // hashed password
+  const hashedPassword = await bcrypt.hash(this.password, 8);
+
+  // replace password with hashed password
+  this.password = hashedPassword;
+
+  return next();
+});
+
+UserSchema.methods.comparePassword = async function (
+  password: string
+): Promise<boolean> {
+  const user = this as UserDocument;
+  return bcrypt.compare(password, user.password).catch(() => false);
+};
+
+export default mongoose.model<UserDocument>("User", UserSchema);
