@@ -13,7 +13,7 @@ class UpdateNoteUseCase {
       throw createHttpError(401, "Fields are invalid");
     }
 
-    const note = await this.noteRepository.findOne({ where: { id } });
+    const note = await this.noteRepository.findOne({ where: { _id: id } });
 
     if (!note) {
       throw createHttpError(404, "Note not found");
@@ -22,7 +22,7 @@ class UpdateNoteUseCase {
     const noteUpdated = await this.noteRepository.update({
       ...note,
       ...value,
-      updated_at: new Date(),
+      updated_at: Date.now,
     });
 
     return noteUpdated;
