@@ -25,7 +25,7 @@ class UpdateBasicInfoUseCase {
       };
     }
 
-    return await this.userRepository.update(user._id, user);
+    return await this.userRepository.update(user);
   }
 }
 
