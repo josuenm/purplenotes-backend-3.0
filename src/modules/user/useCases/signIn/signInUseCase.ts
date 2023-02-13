@@ -1,29 +1,31 @@
 import "dotenv/config";
 import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
-import { validateSignIn } from "../../../../services/joi";
+import validate, {
+  SignInDTO,
+} from "../../../../services/zod/user/sign-in-validation";
 import { IUserRepository } from "../../repositories/implementations/IUserRepository";
-import { SignInDTO } from "../../types/UserProps";
 
 class SignInUseCase {
   constructor(private userRepository: IUserRepository) {}
 
   public async execute(data: SignInDTO) {
-    const { error, value } = validateSignIn(data);
+    const validation = validate(data);
+    const values = validation.data;
 
-    if (error) {
+    if (!validation.success) {
       throw createHttpError(401, "Fields are invalid");
     }
 
     const user = await this.userRepository.findOne({
-      email: data.email,
+      email: values.email,
     });
 
     if (!user) {
       throw createHttpError(404, "User not found");
     }
 
-    if (!user.comparePassword(value.password)) {
+    if (!user.comparePassword(values.password)) {
       throw createHttpError(401, "Email or password is incorrect");
     }
 

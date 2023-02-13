@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import { validateCreatePasswordRecovery } from "../../../../services/joi";
+import validate from "../../../../services/zod/user/create-password-recovery-validation";
 import { IPasswordRecoveryRepository } from "../../repositories/implementations/IPasswordRecoveryRepository";
 import { IUserRepository } from "../../repositories/implementations/IUserRepository";
 
@@ -10,14 +10,15 @@ class CreatePasswordRecoveryUseCase {
   ) {}
 
   public async execute(email: string) {
-    const { error, value } = validateCreatePasswordRecovery(email);
+    const validation = validate({ email });
+    const values = validation.data;
 
-    if (error) {
+    if (!validation.success) {
       throw createHttpError(401, "Field are invalid");
     }
 
     const user = await this.userRepository.findOne({
-      where: { email: value },
+      where: { email: values.email },
     });
 
     if (!user) {
@@ -25,7 +26,7 @@ class CreatePasswordRecoveryUseCase {
     }
 
     const passwordRecovery = this.passwordRecoveryRepository.create({
-      email: value,
+      email: values.email,
       author: user.id,
     });
 

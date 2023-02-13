@@ -1,29 +1,31 @@
 import "dotenv/config";
 import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
-import { validateSignUp } from "../../../../services/joi";
+import validate, {
+  SignUpDTO,
+} from "../../../../services/zod/user/sign-up-validation";
 import { IUserRepository } from "../../repositories/implementations/IUserRepository";
-import { SignUpDTO } from "../../types/UserProps";
 
 class SignUpUseCase {
   constructor(private userRepository: IUserRepository) {}
 
   public async execute(data: SignUpDTO) {
-    const { error, value } = validateSignUp(data);
+    const validation = validate(data);
+    const values = validation.data;
 
-    if (error) {
+    if (!validation.success) {
       throw createHttpError(401, "Fields are invalid");
     }
 
     const userAlreadyExist = await this.userRepository.findOne({
-      email: value.email,
+      email: values.email,
     });
 
     if (userAlreadyExist) {
       throw createHttpError(409, "User already exist");
     }
 
-    const userCreated = await this.userRepository.create(value);
+    const userCreated = await this.userRepository.create(values);
     const user = await this.userRepository.save(userCreated);
 
     const token = jwt.sign(

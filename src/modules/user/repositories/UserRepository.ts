@@ -1,7 +1,7 @@
 import createHttpError from "http-errors";
 import { FilterQuery, QueryOptions } from "mongoose";
+import { SignUpDTO } from "../../../services/zod/user/sign-up-validation";
 import User, { UserDocument } from "../entities/User";
-import { SignUpDTO } from "../types/UserProps";
 import { IUserRepository } from "./implementations/IUserRepository";
 
 class UserRepository implements IUserRepository {
@@ -20,17 +20,15 @@ class UserRepository implements IUserRepository {
     }
   }
 
-  public async update(user: UserDocument) {
+  public async update(id: string, user: UserDocument) {
     try {
       return await User.findOneAndUpdate(
-        { _id: user._id },
+        { _id: id },
         {
           $set: {
             name: user.name,
             email: user.email,
-            password: user.password,
-            accountConfirmation: user.accountConfirmation,
-            updatedAt: Date.now,
+            updatedAt: Date.now(),
           },
         },
         { upsert: true, returnOriginal: false }

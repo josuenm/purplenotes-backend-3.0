@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { auth } from "../middlewares/auth";
-import { createNoteController } from "../modules/note/useCases/create";
+import { createNoteController } from "../modules/note/useCases/createNote";
 import { deleteNoteController } from "../modules/note/useCases/delete";
 import { getAllMyNotesController } from "../modules/note/useCases/getAllMyNotes";
 import { getMyNoteController } from "../modules/note/useCases/getMyNote";
 import { getNoteController } from "../modules/note/useCases/getNote";
-import { updateNoteController } from "../modules/note/useCases/update";
+import { updateNoteController } from "../modules/note/useCases/updateNote";
 
 const route = Router();
 

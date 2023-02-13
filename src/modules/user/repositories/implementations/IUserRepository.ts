@@ -1,6 +1,6 @@
 import { FilterQuery, QueryOptions } from "mongoose";
+import { SignUpDTO } from "../../../../services/zod/user/sign-up-validation";
 import { UserDocument } from "../../entities/User";
-import { SignUpDTO } from "../../types/UserProps";
 
 interface IUserRepository {
   findOne: (
@@ -10,7 +10,7 @@ interface IUserRepository {
   save: (user: UserDocument) => Promise<UserDocument>;
   create: (data: SignUpDTO) => Promise<UserDocument>;
   delete: (user: UserDocument) => Promise<void>;
-  update: (user: UserDocument) => Promise<UserDocument>;
+  update: (id: string, user: UserDocument) => Promise<UserDocument>;
 }
 
 export { IUserRepository };

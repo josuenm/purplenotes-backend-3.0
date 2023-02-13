@@ -15,7 +15,7 @@ class DeleteNoteUseCase {
       throw createHttpError(404, "Note not found");
     }
 
-    await this.noteRepository.delete(note.id);
+    await this.noteRepository.delete(note);
   }
 }
 

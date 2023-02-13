@@ -2,10 +2,10 @@ import { Router } from "express";
 import { auth } from "../middlewares/auth";
 import { confirmPasswordRecoveryController } from "../modules/user/useCases/confirmPasswordRecovery";
 import { createPasswordRecoveryController } from "../modules/user/useCases/createPasswordRecovery";
-import { deleteController } from "../modules/user/useCases/delete";
+import { deleteUserController } from "../modules/user/useCases/deleteUser";
 import { signInController } from "../modules/user/useCases/signIn";
 import { signUpController } from "../modules/user/useCases/signUp";
-import { updateController } from "../modules/user/useCases/update";
+import { updateBasicInfoController } from "../modules/user/useCases/updateBasicInfo";
 
 const route = Router();
 
@@ -18,11 +18,11 @@ route.post("/sign-up", (req, res, next) => {
 });
 
 route.delete("/", auth, (req, res, next) => {
-  deleteController.handle(req, res, next);
+  deleteUserController.handle(req, res, next);
 });
 
-route.put("/", auth, (req, res, next) => {
-  updateController.handle(req, res, next);
+route.put("/basic-info", auth, (req, res, next) => {
+  updateBasicInfoController.handle(req, res, next);
 });
 
 route.post("/password-recovery", (req, res, next) => {
@@ -34,3 +34,4 @@ route.get("/password-recovery/confirm", (req, res, next) => {
 });
 
 export { route as userRoute };
+

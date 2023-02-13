@@ -1,6 +1,6 @@
 import { FilterQuery, QueryOptions } from "mongoose";
+import { CreatePasswordRecoveryDTO } from "../../../../services/zod/user/create-password-recovery-validation";
 import { PasswordRecoveryDocument } from "../../entities/PasswordRecovery";
-import { CreatePasswordRecoveryDTO } from "../../types/PasswordRecoveryProps";
 
 interface IPasswordRecoveryRepository {
   create: (data: CreatePasswordRecoveryDTO) => PasswordRecoveryDocument;

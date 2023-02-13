@@ -1,6 +1,6 @@
 import { FilterQuery, QueryOptions } from "mongoose";
+import { CreateNoteDTO } from "../../../services/zod/note/create-note-validation";
 import Note, { NoteDocument } from "../entities/Note";
-import { NewNoteDTO } from "../types/NoteProps";
 import { INoteRepository } from "./implementations/INoteRepository";
 
 class NoteRepository implements INoteRepository {
@@ -18,8 +18,8 @@ class NoteRepository implements INoteRepository {
     return await Note.find(query, null, options);
   }
 
-  public create(note: NewNoteDTO) {
-    return new Note(note);
+  public create(id: string, note: CreateNoteDTO) {
+    return new Note({ ...note, author: id });
   }
 
   public async save(note: NoteDocument) {
@@ -30,10 +30,12 @@ class NoteRepository implements INoteRepository {
     await note.delete();
   }
 
-  public async update(note: NoteDocument) {
+  public async update(id: string, note: NoteDocument) {
     return await Note.findOneAndUpdate(
-      { _id: note._id },
-      { $set: { ...note } },
+      { _id: id },
+      {
+        $set: note,
+      },
       { upsert: true, returnOriginal: false }
     );
   }

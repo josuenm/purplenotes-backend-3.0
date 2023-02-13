@@ -11,8 +11,8 @@ export interface UserInput {
   email: string;
   password: string;
   accountConfirmation: AccountConfirmationInput;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UserDocument extends UserInput, mongoose.Document {

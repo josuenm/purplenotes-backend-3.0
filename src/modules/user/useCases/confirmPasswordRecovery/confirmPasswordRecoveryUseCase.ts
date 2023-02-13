@@ -1,5 +1,4 @@
 import createHttpError from "http-errors";
-import { validateConfirmPasswordRecovery } from "../../../../services/joi";
 import { IPasswordRecoveryRepository } from "../../repositories/implementations/IPasswordRecoveryRepository";
 import { IUserRepository } from "../../repositories/implementations/IUserRepository";
 
@@ -10,14 +9,12 @@ class ConfirmPasswordRecoveryUseCase {
   ) {}
 
   public async execute(id: string, newPassword: string) {
-    const { error, value } = validateConfirmPasswordRecovery(newPassword);
-
-    if (error) {
+    if (!newPassword) {
       throw createHttpError(401, "Field are invalid");
     }
 
     const passwordRecovery = await this.passwordRecoveryRepository.findOne({
-      where: { id },
+      where: { id_: id },
     });
 
     if (!passwordRecovery) {
@@ -29,7 +26,7 @@ class ConfirmPasswordRecoveryUseCase {
     }
 
     const user = await this.userRepository.findOne({
-      where: { id: passwordRecovery.author },
+      where: { _id: passwordRecovery.author },
     });
 
     if (!user) {

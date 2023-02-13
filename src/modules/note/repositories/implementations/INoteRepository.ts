@@ -1,6 +1,6 @@
 import { FilterQuery, QueryOptions } from "mongoose";
+import { CreateNoteDTO } from "../../../../services/zod/note/create-note-validation";
 import { NoteDocument } from "../../entities/Note";
-import { NewNoteDTO } from "../../types/NoteProps";
 
 interface INoteRepository {
   findOne: (
@@ -12,9 +12,9 @@ interface INoteRepository {
     options?: QueryOptions
   ) => Promise<NoteDocument[] | []>;
   save: (note: NoteDocument) => Promise<NoteDocument>;
-  create: (note: NewNoteDTO) => NoteDocument;
+  create: (id: string, note: CreateNoteDTO) => NoteDocument;
   delete: (note: NoteDocument) => Promise<void>;
-  update: (note: NoteDocument) => Promise<NoteDocument>;
+  update: (id: string, note: NoteDocument) => Promise<NoteDocument>;
 }
 
 export { INoteRepository };

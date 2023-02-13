@@ -10,6 +10,7 @@ class UpdateNoteController {
         req.params.id,
         req.body
       );
+
       res.json(noteUpdated);
     } catch (e) {
       next(e);

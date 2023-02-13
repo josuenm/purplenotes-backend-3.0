@@ -2,7 +2,7 @@ import createHttpError from "http-errors";
 import { UserDocument } from "../../entities/User";
 import { IUserRepository } from "../../repositories/implementations/IUserRepository";
 
-class DeleteUseCase {
+class DeleteUserUseCase {
   constructor(private userRepository: IUserRepository) {}
 
   public async execute(user: UserDocument, password: string) {
@@ -14,4 +14,4 @@ class DeleteUseCase {
   }
 }
 
-export { DeleteUseCase };
+export { DeleteUserUseCase };
