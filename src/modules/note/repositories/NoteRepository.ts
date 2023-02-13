@@ -30,14 +30,8 @@ class NoteRepository implements INoteRepository {
     await note.delete();
   }
 
-  public async update(id: string, note: NoteDocument) {
-    return await Note.findOneAndUpdate(
-      { _id: id },
-      {
-        $set: note,
-      },
-      { upsert: true, returnOriginal: false }
-    );
+  public async update(note: NoteDocument) {
+    return await this.save(note);
   }
 }
 
