@@ -25,7 +25,9 @@ class SignInUseCase {
       throw createHttpError(404, "User not found");
     }
 
-    if (!user.comparePassword(values.password)) {
+    const passwordIsEqual = await user.comparePassword(values.password);
+
+    if (!passwordIsEqual) {
       throw createHttpError(401, "Email or password is incorrect");
     }
 
