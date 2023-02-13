@@ -6,6 +6,7 @@ import { deleteUserController } from "../modules/user/useCases/deleteUser";
 import { signInController } from "../modules/user/useCases/signIn";
 import { signUpController } from "../modules/user/useCases/signUp";
 import { updateBasicInfoController } from "../modules/user/useCases/updateBasicInfo";
+import { updatePasswordController } from "../modules/user/useCases/updatePassword";
 
 const route = Router();
 
@@ -25,6 +26,10 @@ route.put("/basic-info", auth, (req, res, next) => {
   updateBasicInfoController.handle(req, res, next);
 });
 
+route.put("/password", auth, (req, res, next) => {
+  updatePasswordController.handle(req, res, next);
+});
+
 route.post("/password-recovery", (req, res, next) => {
   createPasswordRecoveryController.handle(req, res, next);
 });
@@ -34,4 +39,3 @@ route.get("/password-recovery/confirm", (req, res, next) => {
 });
 
 export { route as userRoute };
-
