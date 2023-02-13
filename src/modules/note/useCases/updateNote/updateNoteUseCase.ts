@@ -29,10 +29,11 @@ class UpdateNoteUseCase {
       return note;
     }
 
-    (note.title = values.title), (note.body = values.body);
+    note.title = values.title;
+    note.body = values.body;
     note.privacy = values.privacy;
 
-    const noteUpdated = await this.noteRepository.update(note._id, note);
+    const noteUpdated = await this.noteRepository.update(note);
 
     return noteUpdated;
   }
