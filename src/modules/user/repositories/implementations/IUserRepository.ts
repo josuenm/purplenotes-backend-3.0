@@ -10,7 +10,7 @@ interface IUserRepository {
   save: (user: UserDocument) => Promise<UserDocument>;
   create: (data: SignUpDTO) => Promise<UserDocument>;
   delete: (user: UserDocument) => Promise<void>;
-  update: (id: string, user: UserDocument) => Promise<UserDocument>;
+  update: (user: UserDocument) => Promise<UserDocument>;
 }
 
 export { IUserRepository };

@@ -20,19 +20,9 @@ class UserRepository implements IUserRepository {
     }
   }
 
-  public async update(id: string, user: UserDocument) {
+  public async update(user: UserDocument) {
     try {
-      return await User.findOneAndUpdate(
-        { _id: id },
-        {
-          $set: {
-            name: user.name,
-            email: user.email,
-            updatedAt: Date.now(),
-          },
-        },
-        { upsert: true, returnOriginal: false }
-      );
+      return await this.save(user);
     } catch (e) {
       throw createHttpError(500, "Error updating user");
     }
