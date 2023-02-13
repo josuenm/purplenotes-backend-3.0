@@ -1,4 +1,5 @@
 import createHttpError from "http-errors";
+import validate from "../../../../services/zod/user/password-validation";
 import { IPasswordRecoveryRepository } from "../../repositories/implementations/IPasswordRecoveryRepository";
 import { IUserRepository } from "../../repositories/implementations/IUserRepository";
 
@@ -8,8 +9,11 @@ class ConfirmPasswordRecoveryUseCase {
     private passwordRecoveryRepository: IPasswordRecoveryRepository
   ) {}
 
-  public async execute(id: string, newPassword: string) {
-    if (!newPassword) {
+  public async execute(id: string, password: string) {
+    const validation = validate({ password });
+    const values = validation.data;
+
+    if (!validation.success) {
       throw createHttpError(401, "Field are invalid");
     }
 
@@ -33,7 +37,12 @@ class ConfirmPasswordRecoveryUseCase {
       throw createHttpError(401, "User not found");
     }
 
-    await this.userRepository.save(user);
+    const passwordIsEqual = await user.comparePassword(values.password);
+    if (passwordIsEqual) {
+      throw createHttpError(409, "You cannot use the current password");
+    }
+
+    await this.userRepository.update(user);
     await this.passwordRecoveryRepository.confirm(passwordRecovery);
   }
 }
