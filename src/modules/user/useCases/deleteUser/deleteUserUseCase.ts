@@ -10,6 +10,12 @@ class DeleteUserUseCase {
       throw createHttpError(401, "Incorrect password");
     }
 
+    const passwordIsEqual = await user.comparePassword(password);
+
+    if (!passwordIsEqual) {
+      throw createHttpError(401, "Incorrect password");
+    }
+
     await this.userRepository.delete(user);
   }
 }
