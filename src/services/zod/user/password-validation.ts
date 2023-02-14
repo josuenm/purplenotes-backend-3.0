@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const passwordSchema = z.object({
-  password: z.string().min(6).max(20),
+  password: z.string().min(6).max(80),
 });
 
 type PasswordDTO = z.infer<typeof passwordSchema>;
