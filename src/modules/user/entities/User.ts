@@ -20,12 +20,12 @@ export interface UserDocument extends UserInput, mongoose.Document {
 }
 
 const UserSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true, min: 1, max: 80 },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true, min: 6, max: 80 },
   accountConfirmation: {
     email: { type: String, required: true },
-    isUsed: { type: Boolean, required: true, default: false },
+    isConfirmed: { type: Boolean, required: true, default: false },
   },
   createdAt: { type: Date, required: true, default: Date.now },
   updatedAt: { type: Date, required: true, default: Date.now },
