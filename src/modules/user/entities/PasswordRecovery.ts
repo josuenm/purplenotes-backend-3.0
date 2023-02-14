@@ -22,7 +22,7 @@ function generateExpiryDate() {
 const PasswordRecoverySchema = new mongoose.Schema({
   author: { type: String, required: true },
   email: { type: String, required: true },
-  isUsed: { type: Boolean, required: true },
+  isUsed: { type: Boolean, required: true, default: false },
   expiryDate: { type: Date, required: true, default: generateExpiryDate() },
   createdAt: { type: Date, required: true, default: Date.now },
 });
