@@ -14,6 +14,7 @@ interface INoteRepository {
   save: (note: NoteDocument) => Promise<NoteDocument>;
   create: (id: string, note: CreateNoteDTO) => NoteDocument;
   delete: (note: NoteDocument) => Promise<void>;
+  deleteAll: (author: string) => Promise<void>;
   update: (note: NoteDocument) => Promise<NoteDocument>;
 }
 

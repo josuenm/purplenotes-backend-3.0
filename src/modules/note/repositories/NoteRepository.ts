@@ -30,6 +30,10 @@ class NoteRepository implements INoteRepository {
     await note.delete();
   }
 
+  public async deleteAll(author: string) {
+    await Note.deleteMany({ author });
+  }
+
   public async update(note: NoteDocument) {
     return await this.save(note);
   }
