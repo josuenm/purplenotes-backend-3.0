@@ -2,7 +2,6 @@ import { FilterQuery, QueryOptions } from "mongoose";
 import PasswordRecovery, {
   PasswordRecoveryDocument,
 } from "../entities/PasswordRecovery";
-import { CreatePasswordRecoveryDTO } from "../types/PasswordRecoveryProps";
 import { IPasswordRecoveryRepository } from "./implementations/IPasswordRecoveryRepository";
 
 class PasswordRecoveryRepository implements IPasswordRecoveryRepository {
@@ -13,7 +12,7 @@ class PasswordRecoveryRepository implements IPasswordRecoveryRepository {
     return await PasswordRecovery.findOne(query, null, options);
   }
 
-  public create(data: CreatePasswordRecoveryDTO) {
+  public create(data: { email: string; author: string }) {
     return new PasswordRecovery(data);
   }
 
