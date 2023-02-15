@@ -35,7 +35,7 @@ route.post("/password-recovery", (req, res, next) => {
   sendPasswordRecoveryController.handle(req, res, next);
 });
 
-route.get("/password-recovery/confirm", (req, res, next) => {
+route.post("/password-recovery/:id/confirm", (req, res, next) => {
   confirmPasswordRecoveryController.handle(req, res, next);
 });
 
