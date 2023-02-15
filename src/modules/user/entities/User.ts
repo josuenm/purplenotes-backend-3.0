@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
+import { v4 as uuid } from "uuid";
 
 interface AccountConfirmationInput {
   email: string;
@@ -19,11 +20,19 @@ export interface UserDocument extends UserInput, mongoose.Document {
   comparePassword: (password: string) => Promise<boolean>;
 }
 
+function generateExpiryDate() {
+  const expirationDate = new Date();
+  expirationDate.setMonth(expirationDate.getMonth() + 1);
+  return expirationDate;
+}
+
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true, min: 1, max: 80 },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, min: 6, max: 80 },
   accountConfirmation: {
+    token: { type: String, required: true, default: uuid() },
+    expiryDate: { type: Date, required: true, default: generateExpiryDate() },
     email: { type: String, required: true },
     isConfirmed: { type: Boolean, required: true, default: false },
   },
