@@ -18,11 +18,15 @@ class ConfirmPasswordRecoveryUseCase {
     }
 
     const passwordRecovery = await this.passwordRecoveryRepository.findOne({
-      where: { id_: id },
+      _id: id,
     });
 
     if (!passwordRecovery) {
       throw createHttpError(404, "Password recovery not found");
+    }
+
+    if (passwordRecovery.isUsed) {
+      throw createHttpError(401, "Password recovery has already been used");
     }
 
     if (Date.now() > passwordRecovery.expiryDate.getTime()) {
@@ -30,7 +34,7 @@ class ConfirmPasswordRecoveryUseCase {
     }
 
     const user = await this.userRepository.findOne({
-      where: { _id: passwordRecovery.author },
+      _id: passwordRecovery.author,
     });
 
     if (!user) {

@@ -1,6 +1,6 @@
 import { PasswordRecoveryRepository } from "../../repositories/PasswordRecoveryRepository";
 import { UserRepository } from "../../repositories/UserRepository";
-import { confirmPasswordRecoveryController } from "./confirmPasswordRecoveryController";
+import { ConfirmPasswordRecoveryController } from "./confirmPasswordRecoveryController";
 import { ConfirmPasswordRecoveryUseCase } from "./confirmPasswordRecoveryUseCase";
 
 const userRepository = new UserRepository();
@@ -12,6 +12,6 @@ const useCase = new ConfirmPasswordRecoveryUseCase(
   passwordRecoveryRepository
 );
 
-const controller = new confirmPasswordRecoveryController(useCase);
+const controller = new ConfirmPasswordRecoveryController(useCase);
 
 export { controller as confirmPasswordRecoveryController };

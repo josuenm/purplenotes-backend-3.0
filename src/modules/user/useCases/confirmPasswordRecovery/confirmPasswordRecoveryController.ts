@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ConfirmPasswordRecoveryUseCase } from "./confirmPasswordRecoveryUseCase";
 
-class confirmPasswordRecoveryController {
+class ConfirmPasswordRecoveryController {
   constructor(
     private confirmPasswordRecoveryUseCase: ConfirmPasswordRecoveryUseCase
   ) {}
@@ -19,4 +19,4 @@ class confirmPasswordRecoveryController {
   }
 }
 
-export { confirmPasswordRecoveryController };
+export { ConfirmPasswordRecoveryController };
