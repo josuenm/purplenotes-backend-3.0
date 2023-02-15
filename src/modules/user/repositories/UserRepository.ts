@@ -9,7 +9,7 @@ class UserRepository implements IUserRepository {
     query: FilterQuery<UserDocument>,
     options?: QueryOptions
   ) {
-    return User.findOne(query, null, options);
+    return await User.findOne(query, null, options);
   }
 
   public async save(user: UserDocument) {
