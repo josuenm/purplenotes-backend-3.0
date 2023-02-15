@@ -6,7 +6,7 @@ class GetPasswordRecoveryController {
 
   public async handle(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = this.getPasswordRecoveryUseCase.execute(req.params.id);
+      const data = await this.getPasswordRecoveryUseCase.execute(req.params.id);
       res.json(data);
     } catch (e) {
       next(e);
