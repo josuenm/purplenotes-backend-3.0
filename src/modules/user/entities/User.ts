@@ -3,8 +3,10 @@ import mongoose from "mongoose";
 import { v4 as uuid } from "uuid";
 
 interface AccountConfirmationInput {
+  token: string;
+  expiryDate: Date;
   email: string;
-  isUsed: boolean;
+  isConfirmed: boolean;
 }
 
 export interface UserInput {
