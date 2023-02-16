@@ -1,13 +1,18 @@
 import "dotenv/config";
 import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
+import { SendMailProps } from "../../../../services/nodemailer";
+import { accountConfirmationTemplate } from "../../../../services/nodemailer/templates/account-confirmation-template";
 import validate, {
   SignUpDTO,
 } from "../../../../services/zod/user/sign-up-validation";
 import { IUserRepository } from "../../repositories/implementations/IUserRepository";
 
 class SignUpUseCase {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    private userRepository: IUserRepository,
+    private mailSender: SendMailProps
+  ) {}
 
   public async execute(data: SignUpDTO) {
     const validation = validate(data);
@@ -35,6 +40,20 @@ class SignUpUseCase {
         expiresIn: "30d",
       }
     );
+
+    const { attachments, text, subject, html } = accountConfirmationTemplate(
+      process.env.FRONTEND_URL || "",
+      user.accountConfirmation.token
+    );
+
+    await this.mailSender({
+      from: `Purple Notes <${process.env.NODEMAILER_USER}>`,
+      to: [user.accountConfirmation.email],
+      subject,
+      text,
+      attachments: [...attachments],
+      html,
+    });
 
     return {
       user: {

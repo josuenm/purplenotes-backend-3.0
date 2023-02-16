@@ -4,8 +4,8 @@ export interface PasswordRecoveryInput {
   author: string;
   email: string;
   isUsed: boolean;
-  expiryDate: Date;
-  createdAt: Date;
+  expiryDate: string;
+  createdAt: string;
 }
 
 export interface PasswordRecoveryDocument

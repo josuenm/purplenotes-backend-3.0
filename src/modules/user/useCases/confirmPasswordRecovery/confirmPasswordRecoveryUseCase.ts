@@ -29,7 +29,7 @@ class ConfirmPasswordRecoveryUseCase {
       throw createHttpError(401, "Password recovery has already been used");
     }
 
-    if (Date.now() > passwordRecovery.expiryDate.getTime()) {
+    if (Date.now() > new Date(passwordRecovery.expiryDate).getTime()) {
       throw createHttpError(401, "Password recovery time expired");
     }
 
