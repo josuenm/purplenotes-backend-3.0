@@ -1,6 +1,6 @@
 import path from "path";
 
-function confirmAccountTemplate(url: string, id: string) {
+function accountConfirmationTemplate(url: string, id: string) {
   return {
     subject: "Confirm your account",
     text: `Purple Notes - To confirm your account click on the following link: ${url}/${id}`,
@@ -32,4 +32,4 @@ function confirmAccountTemplate(url: string, id: string) {
   };
 }
 
-export { confirmAccountTemplate };
+export { accountConfirmationTemplate };
