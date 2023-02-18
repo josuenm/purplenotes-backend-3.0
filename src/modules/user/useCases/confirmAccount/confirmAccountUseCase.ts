@@ -14,7 +14,12 @@ class ConfirmAccountUseCase {
     user.accountConfirmation.isConfirmed = true;
     user.email = email;
 
-    return await this.userRepository.update(user);
+    const userUpdated = await this.userRepository.update(user);
+    return {
+      accountConfirmation: userUpdated.accountConfirmation,
+      name: userUpdated.name,
+      email: userUpdated.email,
+    };
   }
 }
 
