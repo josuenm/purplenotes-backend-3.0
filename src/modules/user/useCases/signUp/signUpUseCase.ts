@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { SendMailProps } from "../../../../services/nodemailer";
 import { accountConfirmationTemplate } from "../../../../services/nodemailer/templates/account-confirmation-template";
 import validate, {
+  capitalizeFirstLetter,
   SignUpDTO,
 } from "../../../../services/zod/user/sign-up-validation";
 import { IUserRepository } from "../../repositories/implementations/IUserRepository";
@@ -17,6 +18,7 @@ class SignUpUseCase {
   public async execute(data: SignUpDTO) {
     const validation = validate(data);
     const values = validation.data;
+    values.name = capitalizeFirstLetter(values.name);
 
     if (!validation.success) {
       throw createHttpError(401, "Fields are invalid");

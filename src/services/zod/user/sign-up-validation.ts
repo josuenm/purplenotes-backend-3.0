@@ -12,6 +12,14 @@ type ZodResponseProps = {
   data: SignUpDTO;
 };
 
-export { SignUpDTO };
+const capitalizeFirstLetter = (name: string) => {
+  const nameLowerCase = name.toLowerCase();
+  return `${nameLowerCase.slice(0, 1).toUpperCase()}${nameLowerCase.slice(
+    1,
+    nameLowerCase.length
+  )}`;
+};
+
+export { SignUpDTO, capitalizeFirstLetter };
 export default (data: SignUpDTO) =>
   signUpSchema.safeParse(data) as ZodResponseProps;
