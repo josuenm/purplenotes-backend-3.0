@@ -24,7 +24,7 @@ function passwordRecoveryTemplate(url: string, id: string) {
         Create a new password, click below to make a new password.
         </p>
         <div style="padding: 20px 0;">
-            <a href="${url}/password-recovery/confirm/${id}" target="_blank"
+            <a href="${url}/password-recovery/${id}" target="_blank"
               style="background-color: #6b03fc; color: #fff; text-decoration: none; font-weight: bold; border: 0; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Create new password</a>
         </div>
       </div>

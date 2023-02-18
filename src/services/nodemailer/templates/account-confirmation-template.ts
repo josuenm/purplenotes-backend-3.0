@@ -24,7 +24,7 @@ function accountConfirmationTemplate(url: string, id: string) {
         Confirm your account, click below to confirm.
         </p>
         <div style="padding: 20px 0;">
-            <a href="${url}/account-confirmation/confirm/${id}" target="_blank"
+            <a href="${url}/account-confirmation/${id}" target="_blank"
               style="background-color: #6b03fc; color: #fff; text-decoration: none; font-weight: bold; border: 0; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Confirm account</a>
         </div>
       </div>
