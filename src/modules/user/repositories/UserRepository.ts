@@ -16,7 +16,6 @@ class UserRepository implements IUserRepository {
     try {
       return await user.save();
     } catch (e) {
-      console.log(e)
       throw createHttpError(500, "Error saving user");
     }
   }
